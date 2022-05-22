@@ -9,31 +9,19 @@ WORKDIR /src/Middleware
 
 COPY src/Middleware/ .
 
-RUN dotnet restore src/Customer.OrderCloud.Api/Customer.OrderCloud.Api.csproj
+RUN dotnet restore
 
-RUN dotnet build src/Customer.OrderCloud.Api/Customer.OrderCloud.Api.csproj --configuration $env:BUILD_CONFIGURATION
-
-RUN dotnet publish src/Customer.OrderCloud.Api/Customer.OrderCloud.Api.csproj --configuration $env:BUILD_CONFIGURATION --output /out/middleware
+RUN dotnet publish -c Debug -o /out/middleware
 
 FROM ${BASE_IMAGE} as production
-
-RUN apk add --update nodejs npm
-
-# used in entrypoint.sh
-RUN npm install -g json
-
-RUN apk add --no-cache --upgrade bash curl dos2unix
 
 WORKDIR /app
 
 COPY --from=build /out/middleware .
 
-COPY docker/build/middleware/* ./
-
-RUN dos2unix /app/entrypoint.sh
-
 EXPOSE 80
+EXPOSE 443
 
-RUN ["chmod", "+x", "/app/entrypoint.sh"]
+ENTRYPOINT ["dotnet", "FruitStore.OrderCloud.Api.dll"]
 
-CMD ["sh", "/app/entrypoint.sh"]
+
