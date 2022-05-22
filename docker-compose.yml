@@ -1,0 +1,58 @@
+version: '2.4'
+
+services:
+  traefik:
+    isolation: ${TRAEFIK_ISOLATION}
+    image: ${TRAEFIK_IMAGE}
+    container_name: traefik
+    command:
+      - "--ping"
+      - "--api.insecure=true"
+      - "--providers.docker.endpoint=npipe:////./pipe/docker_engine"
+      - "--providers.docker.exposedByDefault=false"
+      - "--providers.file.directory=C:/etc/traefik/config/dynamic"
+      - "--entryPoints.websecure.address=:443"
+    ports:
+      - "443:443"
+      - "8079:8080"
+    healthcheck:
+      test: ["CMD", "traefik", "healthcheck", "--ping"]
+    volumes:
+      - source: \\.\pipe\docker_engine
+        target: \\.\pipe\docker_engine
+        type: npipe
+      - ${LOCAL_DATA_PATH}/traefik:C:/etc/traefik
+
+  # middleware:
+  #   image: ${REGISTRY}headstart-middleware:${VERSION}-linux
+  #   isolation: default
+  #   ports:
+  #     - 43005:80
+  #   build:
+  #     context: .
+  #     dockerfile: docker/build/middleware/Dockerfile
+  #     args:
+  #       BUILD_IMAGE: mcr.microsoft.com/dotnet/sdk:3.1-alpine
+  #       BASE_IMAGE: mcr.microsoft.com/dotnet/aspnet:3.1-alpine
+  #       BUILD_CONFIGURATION: ${BUILD_CONFIGURATION}
+  #   environment:
+  #     ASPNETCORE_ENVIRONMENT: ${BUILD_CONFIGURATION}
+  #     ApplicationInsightsSettings_InstrumentationKey: "${ApplicationInsightsSettings_InstrumentationKey}"
+
+
+  #     OrderCloudSettings_ApiUrl: "${OrderCloudSettings_ApiUrl}"
+  #     OrderCloudSettings_ClientIDsWithAPIAccess: "${OrderCloudSettings_ClientIDsWithAPIAccess}"
+  #     OrderCloudSettings_IncrementorPrefix: "${OrderCloudSettings_IncrementorPrefix}"
+  #     OrderCloudSettings_MarketplaceID: "${OrderCloudSettings_MarketplaceID}"
+  #     OrderCloudSettings_MarketplaceName: "${OrderCloudSettings_MarketplaceName}"
+  #     OrderCloudSettings_MiddlewareClientID: "${OrderCloudSettings_MiddlewareClientID}"
+  #     OrderCloudSettings_MiddlewareClientSecret: "${OrderCloudSettings_MiddlewareClientSecret}"
+  #     OrderCloudSettings_WebhookHashKey: "${OrderCloudSettings_WebhookHashKey}"
+
+  #   networks:
+  #     headstart:
+  #       aliases:
+  #         - "${API_HOST}"
+  #   labels:
+  #     - "traefik.enable=true"
+  #     - "traefik.middleware.frontend.rule=Host:${API_HOST}"

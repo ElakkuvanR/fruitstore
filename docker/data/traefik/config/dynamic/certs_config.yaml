@@ -1,0 +1,10 @@
+tls:
+  certificates:
+    - certFile: C:\etc\traefik\certs\cert.pem
+      keyFile: C:\etc\traefik\certs\key.pem
+    - certFile: C:\etc\traefik\certs\cert-vetfocus.pem
+      keyFile: C:\etc\traefik\certs\key-vetfocus.pem
+    - certFile: C:\etc\traefik\certs\cert-eukanuba.pem
+      keyFile: C:\etc\traefik\certs\key-eukanuba.pem
+    - certFile: C:\etc\traefik\certs\cert-sportingdog.pem
+      keyFile: C:\etc\traefik\certs\key-sportingdog.pem
