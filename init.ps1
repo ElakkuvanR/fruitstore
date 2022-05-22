@@ -19,7 +19,7 @@ try {
     & $mkcert -install
     & $mkcert -key-file key.pem -cert-file cert.pem "*.fruitstore.com"
     #api.fruitstore.localhost
-    & $mkcert -key-file fruitstore.pem -cert-file cert-fruitstore.pem "api.fruitstore.localhost"
+    & $mkcert -key-file fruitstore.pem -cert-file cert-fruitstore.pem "api-middleware.fruitstore.com"
 }
 catch {
     Write-Error "An error occurred while attempting to generate TLS certificate: $_"
@@ -32,4 +32,4 @@ finally {
 . "$PSScriptRoot\docker\scripts\helpers.ps1"
 
 ### Add host entries 
-add-host -ip 127.0.0.1 -hostname 'api.fruitstore.localhost'
+add-host -ip 127.0.0.1 -hostname 'api-middleware.fruitstore.com'
