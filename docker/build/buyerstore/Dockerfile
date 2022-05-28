@@ -4,47 +4,25 @@ ARG BASE_IMAGE
 
 FROM ${BASE_IMAGE} as base
 
-RUN npm config set registry http://registry.npmjs.org/ --global
+## Included these lines to avoid garbage collection errors during npm install
+ENV GENERATE_SOURCEMAP false
+ENV NODE_OPTIONS=--max-old-space-size=8192
+EXPOSE 3000
 
-RUN npm install -g json
+# set your working directory  
+WORKDIR /App
 
-RUN apk add --no-cache git
+# install application dependencies  
+COPY src/UI/buyerstore/package.json ./  
+COPY src/UI/buyerstore/package-lock.json ./
 
-FROM base as builder
+RUN npm ci --ignore-scripts --loglevel warn
+# COPY  package.json .
+RUN npm install --silent
+COPY src/UI/buyerstore/public/* ./public/
+COPY src/UI/buyerstore/src/* ./src/
+COPY src/UI/buyerstore/tsconfig.json ./
 
-ARG ROLE
-
-WORKDIR /build
-
-# Build SDK
-COPY src/UI/SDK/package*.json SDK/
-RUN cd /build/SDK && npm install
-COPY src/UI/SDK SDK/
-RUN cd /build/SDK && npm run build
-
-# Build APP (Buyer or Seller)
-COPY src/UI/${ROLE}/package*.json APP/
-RUN cd /build/APP && npm install
-COPY src/UI/${ROLE} APP/
-RUN sed -i 's/useLocalMiddleware = true/useLocalMiddleware = false/g' /build/APP/src/environments/environment.local.ts
-RUN cd /build/APP && npm run build --prod
-
-FROM nginx:1.19.8-alpine as production
-
-ARG ROLE
-
-COPY docker/build/UI/${ROLE}.sh ./entrypoint.sh
-
-RUN apk add dos2unix && dos2unix ./entrypoint.sh
-
-RUN apk add --update nodejs nodejs-npm && npm install -g json
-
-COPY docker/build/UI/nginx/default.conf /etc/nginx/conf.d/default.conf
-
-COPY src/UI/${ROLE}/scripts /usr/share/nginx/html
-
-COPY --from=builder /build/APP/dist /usr/share/nginx/html
-
-RUN ["chmod", "+x", "./entrypoint.sh"]
-
-CMD ["sh", "/entrypoint.sh"]
+EXPOSE 3000
+# # will start app  
+ENTRYPOINT "npm run start"

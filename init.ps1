@@ -20,6 +20,8 @@ try {
     & $mkcert -key-file key.pem -cert-file cert.pem "*.fruitstore.com"
     #api.fruitstore.localhost
     & $mkcert -key-file fruitstore.pem -cert-file cert-fruitstore.pem "api-middleware.fruitstore.com"
+    & $mkcert -key-file buyer.pem -cert-file cert-buyer.pem "buyer.fruitstore.com"
+
 }
 catch {
     Write-Error "An error occurred while attempting to generate TLS certificate: $_"
@@ -33,3 +35,4 @@ finally {
 
 ### Add host entries 
 add-host -ip 127.0.0.1 -hostname 'api-middleware.fruitstore.com'
+add-host -ip 127.0.0.1 -hostname 'buyer.fruitstore.com'

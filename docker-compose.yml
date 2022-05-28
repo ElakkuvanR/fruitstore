@@ -24,6 +24,15 @@ services:
       - ${LOCAL_DATA_PATH}/traefik:C:/etc/traefik
     depends_on:
       - middleware
+  
+  nodejs:
+    image: ${REGISTRY}fruitshop-nodejs:${VERSION:-latest}
+    build:
+      context: ./docker/build/nodejs
+      args:
+        PARENT_IMAGE: ${NODEJS_PARENT_IMAGE}
+        NODEJS_VERSION: ${NODEJS_VERSION}
+    scale: 0
 
   middleware:
     image: ${REGISTRY}fruitshop-middleware:${VERSION}
@@ -56,3 +65,25 @@ services:
        - "traefik.http.routers.apimiddleware-secure.rule=Host(`${API_HOST}`)"
        - "traefik.http.routers.apimiddleware-secure.tls=true"
        - "traefik.http.routers.apimiddleware-secure.middlewares=force-STS-Header"
+  buyer:
+    image: ${REGISTRY}fruitshop-buyer:${VERSION}
+    isolation: default
+    environment:
+      MIDDLEWARE_URL: http://${API_HOST}
+      BUYER_URL: http://${BUYER_HOST}
+    build:
+      context: .
+      dockerfile: docker/build/buyerstore/Dockerfile
+      args:
+        BASE_IMAGE: ${REGISTRY}fruitshop-nodejs:${VERSION:-latest}
+        ROLE: buyerstore
+    volumes:
+      - .\src\UI\buyerstore:C:\App
+    labels:
+       - "traefik.enable=true"
+       - "traefik.http.middlewares.force-STS-Header.headers.forceSTSHeader=true"
+       - "traefik.http.middlewares.force-STS-Header.headers.stsSeconds=31536000"
+       - "traefik.http.routers.buyerstore-secure.entrypoints=websecure"
+       - "traefik.http.routers.buyerstore-secure.rule=Host(`${BUYER_HOST}`)"
+       - "traefik.http.routers.buyerstore-secure.tls=true"
+       - "traefik.http.routers.buyerstore-secure.middlewares=force-STS-Header"
