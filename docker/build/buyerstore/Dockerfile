@@ -12,12 +12,12 @@ EXPOSE 3000
 # set your working directory  
 WORKDIR /App
 
-# install application dependencies  
+# COPY  package.json .
 COPY src/UI/buyerstore/package.json ./  
 COPY src/UI/buyerstore/package-lock.json ./
 
 RUN npm ci --ignore-scripts --loglevel warn
-# COPY  package.json .
+
 RUN npm install --silent
 COPY src/UI/buyerstore/public/* ./public/
 COPY src/UI/buyerstore/src/* ./src/
