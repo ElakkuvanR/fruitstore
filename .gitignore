@@ -290,11 +290,6 @@ appSettings.json
 tests//TestData/*.json
 tests/TestData/output/*
 
-# compiled output
-src/UI/Buyer/container-app/dist
-src/UI/Buyer/src/environments/environment.ts
-*.code-workspace
-src/Middleware/ngrok.exe
 *.orig
 
 .DS_Store
