@@ -13,16 +13,16 @@ EXPOSE 3000
 WORKDIR /App
 
 # COPY  package.json .
-COPY src/UI/buyerstore/package.json ./  
-COPY src/UI/buyerstore/package-lock.json ./
+COPY src/UI/buyerstores/package.json ./  
+COPY src/UI/buyerstores/package-lock.json ./
 
 RUN npm ci --ignore-scripts --loglevel warn
 
 RUN npm install --silent
-COPY src/UI/buyerstore/public/* ./public/
-COPY src/UI/buyerstore/src/* ./src/
-COPY src/UI/buyerstore/package.json ./
-COPY src/UI/buyerstore/package-lock.json ./
+COPY src/UI/buyerstores/public/* ./public/
+COPY src/UI/buyerstores/src/* ./src/
+COPY src/UI/buyerstores/package.json ./
+COPY src/UI/buyerstores/package-lock.json ./
 
 EXPOSE 3000
 # # will start app  

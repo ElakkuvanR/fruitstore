@@ -5,7 +5,7 @@ import styles from './Header.module.css';
 const Header = (props) => {
   return (
     <header className={styles['main-header']}>
-      <h1>A Simple Ordercloud Buyer App</h1>
+      <h1>A Simple Ordercloud Buyer App...</h1>
       <Nagivation></Nagivation>
     </header>
   );

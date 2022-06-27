@@ -78,7 +78,7 @@ services:
         BASE_IMAGE: ${REGISTRY}fruitshop-nodejs:${VERSION:-latest}
         ROLE: buyerstore
     volumes:
-      - .\src\UI\buyerstore:C:\App
+      - .\src\UI\buyerstores:C:\App
     labels:
        - "traefik.enable=true"
        - "traefik.http.middlewares.force-STS-Header.headers.forceSTSHeader=true"
