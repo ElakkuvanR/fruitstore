@@ -21,8 +21,6 @@ RUN npm ci --ignore-scripts --loglevel warn
 RUN npm install --silent
 COPY src/UI/buyerstores/public/* ./public/
 COPY src/UI/buyerstores/src/* ./src/
-COPY src/UI/buyerstores/package.json ./
-COPY src/UI/buyerstores/package-lock.json ./
 
 EXPOSE 3000
 # # will start app  

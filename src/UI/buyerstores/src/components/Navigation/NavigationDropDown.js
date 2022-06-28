@@ -11,7 +11,7 @@ const NavDropDown = (props) => {
   const loggedinUserName = ctx.loggedinUser ? ctx.loggedinUser.FirstName : "";
   return (
     <NavDropdown
-      title={`Signed in as ${loggedinUserName}`}
+      title={`Signed in as ${loggedinUserName.toUpperCase()}`}
       id="navbarScrollingDropdown"
     >
       {ctx.isLoggedIn && (

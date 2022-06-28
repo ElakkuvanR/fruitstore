@@ -3,7 +3,7 @@
 ## How to set this up in local ?
 
 * Clone the repository in your local 
-* Run the ./Init.ps1 - This will install the necessary certs and adds the hosts entries
+* Run the ./Init.ps1 - This will install the necessary certs and adds the required hosts entries
 * Populate the below details in the .env file
 
 OrderCloudSettings_ApiUrl="https://yoursandbox-sandbox.ordercloud.io"
@@ -17,7 +17,8 @@ OrderCloudSettings_ClientIDsWithAPIAccess=""
 
 * And then run the 'docker-compose up -d'
 * Wait for the containers to be up 
-* This is the host name to access the buyer application - buyer.fruitstore.com
+* This is the host name to access the buyer application - https://buyer.fruitstore.com
+* End point of the middleware - https://api-middleware.fruitstore.com/ 
 
 ## About the containers
 
@@ -29,14 +30,19 @@ This is a netcore API middleware and this is primarly to communicate with OrderC
 
 ### A Buyer App
 
-This is a React application for buyers. 
+* This is a React application for buyers. 
+* For the UI, I am using bootstrap with this application
 
 
 #### Note
 
-* This is a sample POC
-* I will be keep adding improvement on top of it 
+* This is a sample POC to explore the different OrderCloud options in action
+* I will be adding more functionalities on top of it 
 
+## Demo
 
+For now, only some very basic part is done and it will look like below,
 
-## Happy Coding....!!!
+![Redux](docs/images/Login.png?raw=true "Login")
+
+## Stay Tuned and Happy Coding....!!!
