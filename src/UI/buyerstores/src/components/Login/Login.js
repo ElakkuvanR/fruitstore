@@ -1,6 +1,6 @@
 import React, { useRef, useContext } from "react";
 import styles from "./Login.module.css";
-import Button from "../UI/Button/button";
+import CustomButton from "../UI/Button/button";
 import Card from "../UI/Card/Card";
 import Input from "../UI/Input/Input";
 import AuthContext from "../../store/auth-context";
@@ -30,9 +30,9 @@ const Login = (props) => {
           type="password"
         ></Input>
         <div className={styles.actions}>
-          <Button type="submit" className={styles.btn}>
+          <CustomButton type="submit" className={styles.btn}>
             Login
-          </Button>
+          </CustomButton>
         </div>
       </form>
     </Card>
