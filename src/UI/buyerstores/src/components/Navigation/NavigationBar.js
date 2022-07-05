@@ -1,12 +1,18 @@
 import { Navbar, Container, Nav } from "react-bootstrap";
+import { Link } from "react-router-dom";
 import Search from "../UI/Search/Search";
 import styles from "./NavigationBar.module.css";
 import NavigationDropDown from "./NavigationDropDown";
+import { LinkContainer } from "react-router-bootstrap";
 const NavigationBar = (props) => {
   return (
     <Navbar bg="dark" variant="dark" expand="lg">
       <Container>
-        <Navbar.Brand href="#"></Navbar.Brand>
+        <LinkContainer to="">
+          <Navbar.Brand href="#" style={{ fontSize: "xx-large" }}>
+            Fruit Store
+          </Navbar.Brand>
+        </LinkContainer>
         <Navbar.Toggle aria-controls="navbarScroll" />
         <Navbar.Collapse id="navbarScroll">
           <Nav
@@ -14,12 +20,9 @@ const NavigationBar = (props) => {
             style={{ maxHeight: "100px" }}
             navbarScroll
           >
-            <Nav.Link href="#action1" className={styles.navtext}>
-              Home
-            </Nav.Link>
-            <Nav.Link href="#action2" className={styles.navtext}>
-              Products
-            </Nav.Link>
+            <LinkContainer to="/products">
+              <Nav.Link className={styles.navtext}>Products</Nav.Link>
+            </LinkContainer>
           </Nav>
           <Search></Search>
           <NavigationDropDown></NavigationDropDown>
