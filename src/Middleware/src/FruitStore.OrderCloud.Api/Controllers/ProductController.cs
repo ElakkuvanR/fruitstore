@@ -24,7 +24,8 @@ namespace FruitStore.OrderCloud.Api.Controllers
         /// <summary>
         /// GET Super Product.
         /// </summary>
-        [HttpGet, Route("{id}"), OrderCloudUserAuth(ApiRole.ProductAdmin, ApiRole.ProductReader)]
+        [HttpGet, Route("{id}")]
+        [OrderCloudUserAuth]
         public async Task<SuperOCProduct> Get(string id)
         {
             return await _productService.Get(id, UserContext.AccessToken);

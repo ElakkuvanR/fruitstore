@@ -52,15 +52,22 @@ namespace FruitStore.OrderCloud.Api
             });
             services.AddCors(o => o.AddPolicy("integrationcors",
                 builder => { builder.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader(); }));
+
+            // Overridden the Authentication part due to one issue. This has to be removed
             services
-                .AddOrderCloudUserAuth(opts => opts.AddValidClientIDs(_settings.OrderCloudSettings.StorefrontClientID))
-                .AddOrderCloudWebhookAuth(opts => opts.HashKey = _settings.OrderCloudSettings.WebhookHashKey)
+                .AddHttpContextAccessor()
+                .AddSingleton<RequestAuthenticationService>()
+                .AddSingleton<ISimpleCache, LazyCacheService>() // Can override by registering own implmentation
+                .AddAuthentication()
+                .AddScheme<OrderCloudUserAuthOptions, OrderCloudUserAuthHandler>("OrderCloudUser", null, options => options.AddValidClientIDs(_settings.OrderCloudSettings.MiddlewareClientID));
+            ////////////
+            services
+                //.AddOrderCloudUserAuth(opts => opts.AddValidClientIDs(_settings.OrderCloudSettings.MiddlewareClientID))
                 .AddSingleton<ISimpleCache, LazyCacheService>() // Replace LazyCacheService with RedisService if you have multiple server instances.
                 .AddSingleton<IProductServices, OCProductServices>()
                 .AddSingleton<IOrderCloudClient>(new OrderCloudClient(new OrderCloudClientConfig()
                 {
                     ApiUrl = _settings.OrderCloudSettings.ApiUrl,
-                    AuthUrl = _settings.OrderCloudSettings.ApiUrl,
                     ClientId = _settings.OrderCloudSettings.MiddlewareClientID,
                     ClientSecret = _settings.OrderCloudSettings.MiddlewareClientSecret,
                     Roles = new[] { ApiRole.FullAccess },
@@ -78,6 +85,8 @@ namespace FruitStore.OrderCloud.Api
             app.UseHttpsRedirection();
 
             app.UseRouting();
+
+            app.UseCors();
 
             app.UseAuthorization();
 
