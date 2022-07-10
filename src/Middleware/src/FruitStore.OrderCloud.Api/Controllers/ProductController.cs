@@ -1,4 +1,4 @@
-﻿using FruitStore.OrderCloud.Api.Interfaces;
+﻿using FruitStore.OrderCloud.Client.Interfaces;
 using FruitStore.OrderCloud.Common;
 using FruitStore.OrderCloud.Common.Models;
 using FruitStore.OrderCloud.Common.Models.FSBuyerProduct;
@@ -16,11 +16,11 @@ namespace FruitStore.OrderCloud.Api.Controllers
 
     public class ProductController : CatalystController
     {
-        private readonly IProductServices _productService;
+        private readonly IFSMeResource _fsMeResource;
 
-        public ProductController(AppSettings settings, IProductServices productService)
+        public ProductController(AppSettings settings, IFSMeResource fsMeResource)
         {
-            this._productService = productService;
+            this._fsMeResource = fsMeResource;
         }
         /// <summary>
         /// GET List of all Me Products.
@@ -29,7 +29,7 @@ namespace FruitStore.OrderCloud.Api.Controllers
         [OrderCloudUserAuth(ApiRole.Shopper, ApiRole.FullAccess)]
         public async Task<ListPageWithFacets<FSBuyerProduct>> List()
         {
-            return await _productService.List(UserContext.AccessToken);
+            return await _fsMeResource.ListProductsAsync(UserContext.AccessToken);
         }
     }
 }

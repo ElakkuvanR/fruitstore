@@ -8,6 +8,6 @@ namespace FruitStore.OrderCloud.Common.Models.FSBuyerProduct
 
     public class FSBuyerProduct : BuyerProduct
     {
-        
+
     }
 }

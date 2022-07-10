@@ -1,5 +1,3 @@
-using FruitStore.OrderCloud.Api.Interfaces;
-using FruitStore.OrderCloud.Api.Services;
 using FruitStore.OrderCloud.Client;
 using FruitStore.OrderCloud.Common;
 using Microsoft.AspNetCore.Builder;
@@ -69,7 +67,6 @@ namespace FruitStore.OrderCloud.Api
             services
                 //.AddOrderCloudUserAuth(opts => opts.AddValidClientIDs(_settings.OrderCloudSettings.MiddlewareClientID))
                 .AddSingleton<ISimpleCache, LazyCacheService>()
-                .AddSingleton<IProductServices, OCProductServices>()
                 .AddSingleton<IOrderCloudClient>(new OrderCloudClient(new OrderCloudClientConfig()
                 {
                     ApiUrl = _settings.OrderCloudSettings.ApiUrl,
