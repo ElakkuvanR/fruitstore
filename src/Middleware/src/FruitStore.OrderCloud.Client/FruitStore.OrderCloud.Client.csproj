@@ -1,17 +1,16 @@
-<Project Sdk="Microsoft.NET.Sdk.Web">
+<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <TargetFramework>netcoreapp3.1</TargetFramework>
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Microsoft.AspNetCore.Mvc.NewtonsoftJson" Version="3.1.17" />
+    <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="6.0.0" />
+    <PackageReference Include="OrderCloud.SDK" Version="0.10.5" />
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\FruitStore.OrderCloud.Client\FruitStore.OrderCloud.Client.csproj" />
     <ProjectReference Include="..\FruitStore.OrderCloud.Common\FruitStore.OrderCloud.Common.csproj" />
   </ItemGroup>
-
 
 </Project>

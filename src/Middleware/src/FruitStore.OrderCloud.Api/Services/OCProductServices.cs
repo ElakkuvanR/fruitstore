@@ -1,6 +1,8 @@
 ﻿using FruitStore.OrderCloud.Api.Interfaces;
+using FruitStore.OrderCloud.Client.Interfaces;
 using FruitStore.OrderCloud.Common;
 using FruitStore.OrderCloud.Common.Models;
+using FruitStore.OrderCloud.Common.Models.FSBuyerProduct;
 using OrderCloud.SDK;
 using System;
 using System.Collections.Generic;
@@ -11,29 +13,28 @@ namespace FruitStore.OrderCloud.Api.Services
 {
     public class OCProductServices : IProductServices
     {
-        private readonly IOrderCloudClient _oc;
+        private readonly IFSMeResource _fsClient;
         private readonly AppSettings _settings;
-        public OCProductServices(AppSettings settings, IOrderCloudClient elevatedOc)
+        public OCProductServices(AppSettings settings, IFSMeResource fsClient)
         {
-            _oc = elevatedOc;
+            _fsClient = fsClient;
             _settings = settings;
         }
-        public async Task<SuperOCProduct> Get(string id, string token)
+
+        public Task<SuperOCProduct> Get(string id, string token)
         {
-            var product = await _oc.Products.GetAsync<OCProduct>(id, token);
-            var variants = _oc.Products.ListVariantsAsync<OCVariant>(id, null, null, null, 1, 100, null, token);
-            try
-            {
-                return new SuperOCProduct
-                {
-                    Product = product,
-                    Variants = (await variants).Items,
-                };
-            }
-            catch (Exception e)
-            {
-                throw e;
-            }
+            throw new NotImplementedException();
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="decodedToken"></param>
+        /// <returns></returns>
+        public async Task<ListPageWithFacets<FSBuyerProduct>> List(string decodedToken)
+        {
+            var meProducts = await _fsClient.ListProductsAsync(accessToken: decodedToken);
+            return meProducts;
         }
     }
 }

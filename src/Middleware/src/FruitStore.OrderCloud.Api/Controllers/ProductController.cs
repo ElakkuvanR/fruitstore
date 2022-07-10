@@ -1,6 +1,7 @@
 ﻿using FruitStore.OrderCloud.Api.Interfaces;
 using FruitStore.OrderCloud.Common;
 using FruitStore.OrderCloud.Common.Models;
+using FruitStore.OrderCloud.Common.Models.FSBuyerProduct;
 using Microsoft.AspNetCore.Mvc;
 using OrderCloud.Catalyst;
 using OrderCloud.SDK;
@@ -22,13 +23,13 @@ namespace FruitStore.OrderCloud.Api.Controllers
             this._productService = productService;
         }
         /// <summary>
-        /// GET Super Product.
+        /// GET List of all Me Products.
         /// </summary>
-        [HttpGet, Route("{id}")]
-        [OrderCloudUserAuth]
-        public async Task<SuperOCProduct> Get(string id)
+        [HttpGet, Route("List")]
+        [OrderCloudUserAuth(ApiRole.Shopper, ApiRole.FullAccess)]
+        public async Task<ListPageWithFacets<FSBuyerProduct>> List()
         {
-            return await _productService.Get(id, UserContext.AccessToken);
+            return await _productService.List(UserContext.AccessToken);
         }
     }
 }

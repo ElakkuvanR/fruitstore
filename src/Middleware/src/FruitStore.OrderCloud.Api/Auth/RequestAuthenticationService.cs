@@ -91,15 +91,19 @@ namespace FruitStore.OrderCloud.Api
 
 			// we've validated the token as much as we can on this end, go make sure it's ok on OC	
 			bool isValid;
-			// some valid tokens - e.g. those from the portal - do not have a "kid"
-			if (decodedToken.KeyID == null)
-			{
-				isValid = await VerifyTokenWithMeGet(decodedToken); // also sets meUser field;
-			}
-			else
-			{
-				isValid = await VerifyTokenWithMeGet(decodedToken);
-			}
+
+            #region Removing this for now due to authentication issues using KeyID. 
+            //if (decodedToken.KeyID == null)
+            //{
+            //	isValid = await VerifyTokenWithMeGet(decodedToken); // also sets meUser field;
+            //}
+            //else
+            //{
+            //	isValid = await VerifyTokenWithKeyID(decodedToken);
+            //}
+            #endregion
+
+            isValid = await VerifyTokenWithMeGet(decodedToken);
 
 			if (!isValid)
 			{

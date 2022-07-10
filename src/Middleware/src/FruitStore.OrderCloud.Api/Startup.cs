@@ -1,5 +1,6 @@
 using FruitStore.OrderCloud.Api.Interfaces;
 using FruitStore.OrderCloud.Api.Services;
+using FruitStore.OrderCloud.Client;
 using FruitStore.OrderCloud.Common;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -53,25 +54,33 @@ namespace FruitStore.OrderCloud.Api
             services.AddCors(o => o.AddPolicy("integrationcors",
                 builder => { builder.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader(); }));
 
-            // Overridden the Authentication part due to one issue. This has to be removed
+            #region Overridden the Calalyst Library's Authentication Handler and this shall be removed later.
+
             services
                 .AddHttpContextAccessor()
                 .AddSingleton<RequestAuthenticationService>()
-                .AddSingleton<ISimpleCache, LazyCacheService>() // Can override by registering own implmentation
+                .AddSingleton<ISimpleCache, LazyCacheService>()
                 .AddAuthentication()
                 .AddScheme<OrderCloudUserAuthOptions, OrderCloudUserAuthHandler>("OrderCloudUser", null, options => options.AddValidClientIDs(_settings.OrderCloudSettings.MiddlewareClientID));
-            ////////////
+
+            #endregion
+
+
             services
                 //.AddOrderCloudUserAuth(opts => opts.AddValidClientIDs(_settings.OrderCloudSettings.MiddlewareClientID))
-                .AddSingleton<ISimpleCache, LazyCacheService>() // Replace LazyCacheService with RedisService if you have multiple server instances.
+                .AddSingleton<ISimpleCache, LazyCacheService>()
                 .AddSingleton<IProductServices, OCProductServices>()
                 .AddSingleton<IOrderCloudClient>(new OrderCloudClient(new OrderCloudClientConfig()
                 {
                     ApiUrl = _settings.OrderCloudSettings.ApiUrl,
                     ClientId = _settings.OrderCloudSettings.MiddlewareClientID,
                     ClientSecret = _settings.OrderCloudSettings.MiddlewareClientSecret,
-                    Roles = new[] { ApiRole.FullAccess },
+                    Roles = new[] { ApiRole.FullAccess }
                 }));
+
+            // Custom DIs Registrations goes here
+
+            services.AddFruitStoreServiceCollections();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
