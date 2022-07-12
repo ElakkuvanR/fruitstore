@@ -1,6 +1,6 @@
 import React, { useContext } from "react";
-import { NavDropdown } from "react-bootstrap";
 import AuthContext from "../../store/auth-context";
+import { Navbar, Dropdown, Avatar } from "flowbite-react";
 
 const NavDropDown = (props) => {
   const ctx = useContext(AuthContext);
@@ -10,20 +10,31 @@ const NavDropDown = (props) => {
   };
   const loggedinUserName = ctx.loggedinUser ? ctx.loggedinUser.FirstName : "";
   return (
-    <NavDropdown
-      title={`Signed in as ${loggedinUserName.toUpperCase()}`}
-      id="navbarScrollingDropdown"
+    <Dropdown
+      arrowIcon={false}
+      inline={true}
+      label={
+        <Avatar
+          alt="User settings"
+          img="/user.png"
+          rounded={true}
+        />
+      }
     >
       {ctx.isLoggedIn && (
         <React.Fragment>
-          {" "}
-          <NavDropdown.Item href="#action3">Your Address</NavDropdown.Item>
-          <NavDropdown.Item href="#action4">Payments</NavDropdown.Item>
-          <NavDropdown.Divider />
-          <NavDropdown.Item onClick={logoutHandler}>Logout</NavDropdown.Item>
+          <Dropdown.Header>
+            <span className="block text-sm">
+              {loggedinUserName.toUpperCase()}
+            </span>
+          </Dropdown.Header>
+          <Dropdown.Item>Dashboard</Dropdown.Item>
+          <Dropdown.Item>Settings</Dropdown.Item>
+          <Dropdown.Divider />
+          <Dropdown.Item onClick={logoutHandler}>Sign out</Dropdown.Item>
         </React.Fragment>
       )}
-    </NavDropdown>
+    </Dropdown>
   );
 };
 

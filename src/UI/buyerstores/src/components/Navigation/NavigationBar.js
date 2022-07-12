@@ -1,33 +1,33 @@
-import { Navbar, Container, Nav } from "react-bootstrap";
-import { Link } from "react-router-dom";
+import { Navbar, Dropdown, Avatar } from "flowbite-react";
 import Search from "../UI/Search/Search";
 import styles from "./NavigationBar.module.css";
-import NavigationDropDown from "./NavigationDropDown";
-import { LinkContainer } from "react-router-bootstrap";
+import NavDropDown from "./NavigationDropDown";
+
 const NavigationBar = (props) => {
   return (
-    <Navbar bg="dark" variant="dark" expand="lg">
-      <Container>
-        <LinkContainer to="">
-          <Navbar.Brand href="#" style={{ fontSize: "xx-large" }}>
-            Fruit Store
-          </Navbar.Brand>
-        </LinkContainer>
-        <Navbar.Toggle aria-controls="navbarScroll" />
-        <Navbar.Collapse id="navbarScroll">
-          <Nav
-            className="me-auto my-2 my-lg-0"
-            style={{ maxHeight: "100px" }}
-            navbarScroll
-          >
-            <LinkContainer to="/products">
-              <Nav.Link className={styles.navtext}>Products</Nav.Link>
-            </LinkContainer>
-          </Nav>
-          <Search></Search>
-          <NavigationDropDown></NavigationDropDown>
-        </Navbar.Collapse>
-      </Container>
+    <Navbar fluid={true} rounded={true}>
+      <Navbar.Brand href="/">
+        <img
+          src="/fruits.png"
+          className="mr-3 h-6 sm:h-9"
+          alt="Flowbite Logo"
+        />
+        <span className="self-center whitespace-nowrap text-xl font-semibold dark:text-white">
+          Fruit Store with OrderCloud
+        </span>
+      </Navbar.Brand>
+      <div className="flex md:order-2">
+        <NavDropDown></NavDropDown>
+        <Navbar.Toggle />
+      </div>
+      <Navbar.Toggle />
+      <Navbar.Collapse>
+        <Navbar.Link href="/navbars" active={true}>
+          Home
+        </Navbar.Link>
+        <Navbar.Link href="/about">About</Navbar.Link>
+        <Navbar.Link href="/products">Products</Navbar.Link>
+      </Navbar.Collapse>
     </Navbar>
   );
 };
