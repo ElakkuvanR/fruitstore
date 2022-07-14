@@ -8,7 +8,7 @@ const NavDropDown = (props) => {
   const logoutHandler = (event) => {
     ctx.onLogout();
   };
-  const loggedinUserName = ctx.loggedinUser ? ctx.loggedinUser.FirstName : "";
+  const loggedinUserName = ctx.loggedinUser? ctx.loggedinUser.FirstName : "";
   return (
     <Dropdown
       arrowIcon={false}

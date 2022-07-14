@@ -78,6 +78,15 @@ namespace FruitStore.OrderCloud.Api
             // Custom DIs Registrations goes here
 
             services.AddFruitStoreServiceCollections();
+
+            //services.AddCors(options =>
+            //{
+            //    options.AddPolicy("AllowAll",
+            //            policy =>
+            //            {
+            //                policy.WithOrigins("*");
+            //            });
+            //});
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -92,7 +101,13 @@ namespace FruitStore.OrderCloud.Api
 
             app.UseRouting();
 
-            app.UseCors();
+            app.UseCors(builder =>
+            {
+                builder
+                    .AllowAnyOrigin()
+                    .AllowAnyHeader()
+                    .AllowAnyMethod();
+            });
 
             app.UseAuthorization();
 

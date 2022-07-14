@@ -11,7 +11,7 @@ const AuthContext = React.createContext({
 
 export const AuthContextProvider = (props) => {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
-  const [authToken, setAuthToken] = useState("");
+  const [userAuthToken, setUserAuthToken] = useState("");
   const [me, setMe] = useState(null);
 
   useEffect(() => {
@@ -19,6 +19,7 @@ export const AuthContextProvider = (props) => {
 
     if (storedUserLoggedInInformation) {
       setIsLoggedIn(true);
+      setUserAuthToken(storedUserLoggedInInformation);
       Me.Get().then((response) => {
         setMe(response);
       });
@@ -28,19 +29,20 @@ export const AuthContextProvider = (props) => {
   const logoutHandler = () => {
     localStorage.removeItem("authtoken");
     setMe(null);
-    setAuthToken("");
+    setUserAuthToken("");
     setIsLoggedIn(false);
   };
 
   const loginHandler = (username, password) => {
     setIsLoggedIn(true);
-    const clientID = "BDC1AC7F-B32E-4A8D-8171-72BFC6B85329";
+    // The client ID to be moved to the config
+    const clientID = "DB0572B5-784C-47A0-BE9B-175473FEBFFE";
     const scope = ["Shopper"];
     Auth.Login(username, password, clientID, scope)
       .then((response) => {
         const token = response.access_token;
         Tokens.SetAccessToken(token);
-        setAuthToken(token);
+        setUserAuthToken(token);
         localStorage.setItem("authtoken", token);
         Me.Get().then((response) => {
           setMe(response);
@@ -55,7 +57,7 @@ export const AuthContextProvider = (props) => {
         isLoggedIn: isLoggedIn,
         onLogout: logoutHandler,
         onLogin: loginHandler,
-        authToken: authToken,
+        authToken: userAuthToken,
         loggedinUser: me,
       }}
     >

@@ -2,6 +2,7 @@
 using FruitStore.OrderCloud.Common;
 using FruitStore.OrderCloud.Common.Models;
 using FruitStore.OrderCloud.Common.Models.FSBuyerProduct;
+using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
 using OrderCloud.Catalyst;
 using OrderCloud.SDK;
@@ -13,7 +14,6 @@ using System.Threading.Tasks;
 namespace FruitStore.OrderCloud.Api.Controllers
 {
     [Route("products")]
-
     public class ProductController : CatalystController
     {
         private readonly IFSMeResource _fsMeResource;
@@ -25,7 +25,7 @@ namespace FruitStore.OrderCloud.Api.Controllers
         /// <summary>
         /// GET List of all Me Products.
         /// </summary>
-        [HttpGet, Route("List")]
+        [HttpGet, Route("list")]
         [OrderCloudUserAuth(ApiRole.Shopper, ApiRole.FullAccess)]
         public async Task<ListPageWithFacets<FSBuyerProduct>> List()
         {

@@ -1,10 +1,11 @@
 import ProductList from "../components/Products/ProductList";
 import { Navbar } from "flowbite-react";
+import { AuthContextProvider } from "../store/auth-context";
 import { Fragment } from "react";
 
 const Products = (props) => {
   return (
-    <Fragment>
+    <AuthContextProvider>
       <Navbar fluid={true} rounded={true}>
         <Navbar.Toggle />
         <Navbar.Collapse>
@@ -16,7 +17,7 @@ const Products = (props) => {
       <div className="container mx-auto">
         <ProductList></ProductList>
       </div>
-    </Fragment>
+    </AuthContextProvider>
   );
 };
 
