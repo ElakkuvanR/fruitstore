@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { Auth, Tokens, Me } from "ordercloud-javascript-sdk";
+import { AppConfig } from "../configs/appconfig";
+import { EnvironmentConfig } from "../environments/environmentconfig";
 
 const AuthContext = React.createContext({
   isLoggedIn: false,
@@ -35,9 +37,8 @@ export const AuthContextProvider = (props) => {
 
   const loginHandler = (username, password) => {
     setIsLoggedIn(true);
-    // The client ID to be moved to the config
-    const clientID = "DB0572B5-784C-47A0-BE9B-175473FEBFFE";
-    const scope = ["Shopper"];
+    const clientID = EnvironmentConfig.buyerClientId;
+    const scope = AppConfig.shopperScope;
     Auth.Login(username, password, clientID, scope)
       .then((response) => {
         const token = response.access_token;

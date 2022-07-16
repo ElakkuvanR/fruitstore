@@ -6,9 +6,10 @@ import App from "./App";
 import { AuthContextProvider } from "./store/auth-context";
 import { Configuration } from "ordercloud-javascript-sdk";
 import { BrowserRouter } from "react-router-dom";
+import { EnvironmentConfig } from "./environments/environmentconfig";
 
 Configuration.Set({
-  baseApiUrl: "https://australiaeast-sandbox.ordercloud.io",
+  baseApiUrl: EnvironmentConfig.baseApiUrl,
   timeoutInMilliseconds: 20 * 1000,
 });
 

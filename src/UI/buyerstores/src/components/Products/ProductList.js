@@ -2,6 +2,7 @@ import React, { useEffect, useState, useContext } from "react";
 import ProductCard from "./ProductCard";
 import useHttp from "../../hooks/use-http";
 import AuthContext from "../../store/auth-context";
+import { EnvironmentConfig } from "../../environments/environmentconfig";
 
 const getPrice = (priceData) => {
   const priceBreaks = priceData.PriceBreaks;
@@ -15,7 +16,8 @@ const formImageUrl = (imageProp) => {
     "https://firebasestorage.googleapis.com/v0/b/react-http-51a82.appspot.com/o/";
   let imageUrl = "";
   if (imageProp) {
-    imageUrl = firebaseDomain+`${imageProp.name}?alt=media&token=${imageProp.token}`;
+    imageUrl =
+      firebaseDomain + `${imageProp.name}?alt=media&token=${imageProp.token}`;
   }
   return imageUrl;
 };
@@ -45,7 +47,7 @@ const ProductList = () => {
 
     fetchProducts(
       {
-        url: "https://localhost:44311/products/list",
+        url: EnvironmentConfig.apiMiddlewareUrl + "products/list",
         method: "GET",
         headers: {
           "Content-Type": "application/json",
