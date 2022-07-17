@@ -28,7 +28,7 @@ const NavDropDown = (props) => {
               {loggedinUserName.toUpperCase()}
             </span>
           </Dropdown.Header>
-          <Dropdown.Item>Dashboard</Dropdown.Item>
+          <Dropdown.Item>My Cart</Dropdown.Item>
           <Dropdown.Item>Settings</Dropdown.Item>
           <Dropdown.Divider />
           <Dropdown.Item onClick={logoutHandler}>Sign out</Dropdown.Item>

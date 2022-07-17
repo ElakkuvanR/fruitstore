@@ -11,9 +11,7 @@ const getPrice = (priceData) => {
 };
 
 const formImageUrl = (imageProp) => {
-  // To be moved to the config
-  const firebaseDomain =
-    "https://firebasestorage.googleapis.com/v0/b/react-http-51a82.appspot.com/o/";
+  const firebaseDomain = EnvironmentConfig.firebaseUrl;
   let imageUrl = "";
   if (imageProp) {
     imageUrl =
@@ -51,7 +49,7 @@ const ProductList = () => {
         method: "GET",
         headers: {
           "Content-Type": "application/json",
-          Authorization: "Bearer " + ctx.authToken, //Tokens.GetAccessToken(),
+          Authorization: "Bearer " + ctx.authToken,
         },
       },
       transformProducts
